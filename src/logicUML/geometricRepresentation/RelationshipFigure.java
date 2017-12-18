@@ -25,4 +25,10 @@ public class RelationshipFigure extends Figure{
     return res;
   }
   
+  @Override
+  public Figure clonFigure() {
+    RelationshipFigure clon = new RelationshipFigure(x1, y1, x2, y2);
+    return (Figure) clon;
+  }
+  
 }

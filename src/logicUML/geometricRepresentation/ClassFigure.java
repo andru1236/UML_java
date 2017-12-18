@@ -12,5 +12,11 @@ public class ClassFigure extends Figure{
   public boolean intersects(Point p) {
     return p.x > x1 && p.y > y1 && p.x < x2 && p.y < y2;
   }
+  
+  @Override
+  public Figure clonFigure() {
+    ClassFigure clon = new ClassFigure(x1, y1, x2, y2);
+    return (Figure) clon;
+  }
 
 }

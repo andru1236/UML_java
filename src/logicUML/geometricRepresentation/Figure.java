@@ -32,4 +32,7 @@ public abstract class Figure {
   }
   
   public abstract boolean intersects(Point p);
+  
+  public abstract Figure clonFigure();
+  
 }

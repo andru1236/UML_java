@@ -7,7 +7,7 @@ import logicUML.behavior.TypeRelationship;
 
 public class GraphsClass {
 
-  private final HashMap<Class, ArrayList<Conexion>> graph;
+  private HashMap<Class, ArrayList<Relationship>> graph;
           
   public GraphsClass() {
     graph = new HashMap<>();
@@ -19,8 +19,9 @@ public class GraphsClass {
   
   public void addNode(Class node){
     if (getNode(node) == null) {
-      ArrayList<Conexion> conexions = new ArrayList<>();
+      ArrayList<Relationship> conexions = new ArrayList<>();
       graph.put(node, conexions);
+      node.addObserver(this);
     }
   }
   
@@ -28,6 +29,7 @@ public class GraphsClass {
     if(!graph.isEmpty()){
       Class removeNode = getNode(node);
       if(removeNode != null){
+        node.notifyRemoveNode();
         graph.remove(node);
       }
     }
@@ -44,28 +46,49 @@ public class GraphsClass {
     return null;
   }
   
-  public void addConexion(Class a, Relationship relation, Class b){
-    if(!graph.isEmpty()){
-      Conexion newConexion = new Conexion(relation, b);
-      Conexion conexionExistent = findConexion(newConexion, a);
-      if(conexionExistent == null){
-        graph.get(a).add(newConexion);
+  public void addConexion(Class a, TypeRelationship relation, Class b){
+    if (!graph.isEmpty()) {
+      Relationship conexion = Relationship.makeRelationship(a, relation, b);
+      if(conexion != null){
+        conexion.addObserver(this);
+        Relationship conexionExistent = findConexion(conexion, a);
+        if (conexionExistent == null){
+          graph.get(a).add(conexion);
+          a.addRelation(conexion);
+          b.addRelation(conexion);
+        }
       }
     }
   }
   
-  public void removeConexion(Class a, Relationship relation, Class b){
-    Conexion conexion = new Conexion(relation, b);
+  public void removeConexion(Class a, TypeRelationship relation, Class b){
+    Relationship conexion = Relationship.makeRelationship(a, relation, b);
     conexion = findConexion(conexion, a);
     if(conexion != null){
       graph.get(a).remove(conexion);
     }
   }
   
-  private Conexion findConexion(Conexion conexion, Class node) {
-    ArrayList<Conexion> conexions = graph.get(node);
+  public void removeConexion(Relationship relation){
+    Relationship relationFond = findConexion(
+            relation.getClassA(), 
+            relation.getType(),
+            relation.getClassB());
+    relationFond.remove();
+  }
+  
+  public void changeConexion(Relationship relation, TypeRelationship type){
+    relation.changeType(type);
+  }
+  
+  public void changeNodeType(Class node, TypeClass type){
+    getNode(node).changeType(type);
+  }
+  
+  private Relationship findConexion(Relationship conexion, Class node) {
+    ArrayList<Relationship> conexions = graph.get(node);
     if (!conexions.isEmpty()) {
-      for (Conexion c : conexions) {
+      for (Relationship c : conexions) {
         if (c.isEquals(conexion)) {
           return c;
         }
@@ -74,48 +97,79 @@ public class GraphsClass {
     return null;
   }
   
-  public ArrayList<Conexion> getConexions(Class node){
+  public Relationship findConexion(Class a, TypeRelationship relation, Class b){
+    Relationship relationShip = Relationship.makeRelationship(a, relation, b);
+    return findConexion(relationShip, a);
+  }
+  
+  public ArrayList<Relationship> getConexions(Class node){
     if(!graph.isEmpty()){
       return graph.get(node);
     }
     return null;
   }
-  
-  private boolean rulesOOP(Class a, Relationship relation , Class b){
-    if (a.getType() == TypeClass.INTERFACE) {
-      return false;
+   
+  public void updateChangeNode(Relationship relation){
+    Class classA = relation.getClassA();
+    TypeRelationship type = relation.getType();
+    Class classB = relation.getClassB();
+    
+    ArrayList<Relationship> conexionA = getConexions(classA);
+    ArrayList<Relationship> conexionB = getConexions(classA);
+    
+    if(!Relationship.rulesOOP(classA, type, classB)){
+      conexionA.remove(relation);      
+      conexionB.remove(relation);
     }
-    if (a.getType() == TypeClass.ABTRACT) {
-      if (relation.getType() == TypeRelationship.IMPLEMENTS
-              && b.getType() == TypeClass.INTERFACE) {
-        return true;
-      }
-      if ((relation.getType() == TypeRelationship.AGGREGATION
-              || relation.getType() == TypeRelationship.ASSOCIATION
-              || relation.getType() == TypeRelationship.COMPOSITION
-              || relation.getType() == TypeRelationship.INHERITANCE)
-              && b.getType() == TypeClass.ABTRACT) {
-        return true;
-      }
-
+  }
+    
+  public void updateRemoveRelation(Relationship relation){
+    Class classA = relation.getClassA();
+    Class classB = relation.getClassB();
+    ArrayList<Relationship> conexion = getConexions(classA);
+    if(!conexion.isEmpty()){
+      conexion.remove(relation);
     }
-    if (a.getType() == TypeClass.CONCRETE_CLASS) {
-      if (relation.getType() == TypeRelationship.IMPLEMENTS
-              && b.getType() == TypeClass.INTERFACE) {
-        return true;
-      }
-      if ((relation.getType() == TypeRelationship.AGGREGATION
-              || relation.getType() == TypeRelationship.ASSOCIATION
-              || relation.getType() == TypeRelationship.COMPOSITION
-              || relation.getType() == TypeRelationship.INHERITANCE)
-              && 
-              (b.getType() == TypeClass.ABTRACT 
-              || b.getType() == TypeClass.CONCRETE_CLASS)) {
-        return true;
-      }
-    }
-    return false;
+    classA.removeRelation(relation);
+    classB.removeRelation(relation);
+    
   }
 
+  public GraphsClass clonGraph(){
+    GraphsClass clon = new GraphsClass();
+    if(!graph.isEmpty()){
+      for (Class c : graph.keySet()) {
+        clon.addNode(c.clonClass());
+      }
+      for (Class c : graph.keySet()) {
+        ArrayList<Relationship> conexions = getConexions(c);
+        for(Relationship relation : conexions){
+          Relationship clonRelationship = Relationship.makeRelationship(
+                  clon.getNode(relation.getClassA().getName()), 
+                  relation.getType(), 
+                  clon.getNode(relation.getClassB().getName()));
+        }
+      }
+    }
+    else {
+      clon.graph = new HashMap<>();
+    }
+    return clon;
+  }
   
+  private Class getNode(String node){
+    if(!graph.isEmpty()){
+      for(Class c : graph.keySet()){
+        if(c.getName().equals(node)){
+          return c;
+        }
+      }
+    }
+    return null;
+  }
+  
+  public void show(){
+    graph.forEach((k,v) -> System.out.println("Key  " + k.getName()));
+  }
+
 }
