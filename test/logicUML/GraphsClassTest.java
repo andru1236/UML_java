@@ -32,9 +32,9 @@ public class GraphsClassTest {
 
     testCase = new GraphsClass();
 
-    i = new Class("Intercace", TypeClass.INTERFACE, new Point(50, 50));
-    a = new Class("Abstract", TypeClass.ABTRACT, new Point(0, 0));
-    c = new Class("ConcretClass", TypeClass.CONCRETE_CLASS, new Point(150, 50));
+    i = new Class("Intercace", TypeClass.INTERFACE, new Point(0, 0));
+    a = new Class("Abstract", TypeClass.ABTRACT, new Point(50, 25));
+    c = new Class("ConcretClass", TypeClass.CONCRETE_CLASS, new Point(250, 25));
 
     testCase.addNode(i);
     testCase.addNode(a);
@@ -287,6 +287,39 @@ public class GraphsClassTest {
     testCase.show();
     System.out.println("");
     clon.show();
+  }
+  
+  @Test
+  public void selectedTest(){
+    resetGraph();
+    resetRelations();
+    
+    testCase.addConexion(c, inh, a);
+    testCase.addConexion(a, imp, i);
+    
+    Component selectedClass = testCase.select(new Point(225, 25));
+    Class expectedResult = c;
+    
+    assertEquals(expectedResult, selectedClass);
+    
+    Component selecteRelation = testCase.select(new Point(180, 25));
+    Relationship expentedRelationship = testCase.findConexion(c, inh, a);
+    
+    assertEquals(expentedRelationship, selecteRelation);
+  }
+  
+  @Test
+  public void moveNodeTest(){
+    resetGraph();
+    resetRelations();
+    
+    testCase.addConexion(c, inh, a);
+    testCase.addConexion(a, imp, i);
+    
+    Point expectedPoint = new Point(100, 25);
+    testCase.move(c, expectedPoint);
+    
+    assertEquals(testCase.getNode(c).getPosition(), expectedPoint);
   }
 
 }

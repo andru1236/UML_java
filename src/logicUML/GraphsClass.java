@@ -1,5 +1,6 @@
 package logicUML;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import logicUML.behavior.TypeClass;
@@ -29,7 +30,7 @@ public class GraphsClass {
     if(!graph.isEmpty()){
       Class removeNode = getNode(node);
       if(removeNode != null){
-        node.notifyRemoveNode();
+        node.notifyRemove();
         graph.remove(node);
       }
     }
@@ -74,7 +75,7 @@ public class GraphsClass {
             relation.getClassA(), 
             relation.getType(),
             relation.getClassB());
-    relationFond.remove();
+    relationFond.notifyRemove();
   }
   
   public void changeConexion(Relationship relation, TypeRelationship type){
@@ -167,9 +168,32 @@ public class GraphsClass {
     }
     return null;
   }
-  
+
   public void show(){
     graph.forEach((k,v) -> System.out.println("Key  " + k.getName()));
+  }
+  
+  public Component select(Point p){
+    if(!graph.isEmpty()){
+      for(Class c: graph.keySet()){
+        if(c.intersects(p)){
+          return c;
+        }
+      }
+      for(Class c : graph.keySet()){
+        ArrayList<Relationship> conexions = getConexions(c);
+        for(Relationship conexion : conexions){
+          if(conexion.intersects(p)){
+            return conexion;
+          }
+        }
+      }
+    }
+    return null;
+  }
+  
+  public void move(Class a, Point p){
+    a.changePosition(p);
   }
 
 }

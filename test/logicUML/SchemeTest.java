@@ -1,24 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logicUML;
 
+import java.awt.Point;
+import logicUML.behavior.TypeClass;
+import logicUML.behavior.TypeRelationship;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author andru1236
- */
 public class SchemeTest {
   
   public SchemeTest() {
   }
 
   @Test
-  public void testSomeMethod() {
+  public void addClassTest() {
+  }
+  
+  @Test
+  public void addRelationshipTest(){
+    
+  }
+  
+  @Test
+  public void selectedComponentTest(){
+    
+  }
+  
+  @Test
+  public void moveComponentTest(){
+    
+  }
+  
+  @Test
+  public void undoTest(){
+    
+  }
+  
+  @Test
+  public void redoTest(){
+    
+  }
+  
+  @Test
+  public void changeRelationTest(){
+    
+  }
+  
+  @Test
+  public void changeClassTypeTest(){
+    
+  }
+  
+  @Test
+  public void removeClassTest(){
+    
+  }
+  
+  @Test
+  public void removeRelationshipTest(){
+    
   }
   
 }

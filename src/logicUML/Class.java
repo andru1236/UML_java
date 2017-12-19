@@ -2,21 +2,14 @@ package logicUML;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import logicUML.behavior.Selectable;
-import logicUML.behavior.EditableClass;
 import logicUML.behavior.TypeClass;
 import logicUML.geometricRepresentation.ClassFigure;
-import logicUML.geometricRepresentation.Figure;
 
-public  class Class implements Selectable, EditableClass{
+public  class Class extends Component<TypeClass>{
   
   private String name;
   private Point position;
-  private TypeClass type;
-  private boolean selected;
-  private GraphsClass observer;
   private ArrayList<Relationship> relations;
-  private Figure classFigure;
   
   public Class(String name, TypeClass type, Point position){
     this.name = name;
@@ -24,10 +17,11 @@ public  class Class implements Selectable, EditableClass{
     this.position = position;
     this.selected = false;
     this.relations = new ArrayList<>();
-    this.classFigure = new ClassFigure(position.x - 50, position.y - 25, 
-                                  position.x + 50, position.y - 25);
+    this.figure = new ClassFigure(position.x - 50, position.y - 25, 
+                                  position.x + 50, position.y + 25);
   }
   
+  @Override
   public void addObserver(GraphsClass observer){
     this.observer = observer;
   }
@@ -36,27 +30,10 @@ public  class Class implements Selectable, EditableClass{
     relations.add(relation);
   }
 
-  @Override
-  public void select() {
-    this.selected = true;
-  }
-
-  @Override
-  public void deselect() {
-    this.selected = false;
-  }
-
-  @Override
-  public boolean isSelected() {
-    return selected;
-  }
-
-  @Override
   public void changeName(String newName) {
     this.name = newName;
   }
 
-  @Override
   public void changePosition(Point newPosition) {
     this.position = newPosition;
   }
@@ -67,6 +44,7 @@ public  class Class implements Selectable, EditableClass{
     notifyChangeType();
   }
 
+  @Override
   public TypeClass getType() {
     return type;
   }
@@ -79,13 +57,15 @@ public  class Class implements Selectable, EditableClass{
     return position;
   }
   
+  @Override
   public void notifyChangeType(){
     for(Relationship relation : relations){
       observer.updateChangeNode(relation);
     }
   }
   
-  public void notifyRemoveNode(){
+  @Override
+  public void notifyRemove(){
     for(Relationship relation : relations){
       observer.updateRemoveRelation(relation);
     }
@@ -106,6 +86,10 @@ public  class Class implements Selectable, EditableClass{
     Class clon = new Class(name, type, positionClon);
     clon.selected = selected;
     return clon;
+  }
+  
+  public boolean intersects(Point p){
+    return figure.intersects(p);
   }
   
 }

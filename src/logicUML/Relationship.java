@@ -1,38 +1,33 @@
 package logicUML;
 
-import logicUML.behavior.EditableRelationship;
-import logicUML.behavior.Selectable;
+import java.awt.Point;
+import java.util.Observer;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
-import logicUML.geometricRepresentation.Figure;
 import logicUML.geometricRepresentation.RelationshipFigure;
 
-public class Relationship implements Selectable, EditableRelationship {
-
-  private TypeRelationship type;
-  private boolean selected;
+public class Relationship extends Component<TypeRelationship> {
 
   private final Class classA;
   private final Class classB;
-  
-  private GraphsClass observer;
-  private Figure RelationFigure;
 
   private Relationship(Class classA, TypeRelationship type, Class classB) {
     this.classA = classA;
     this.type = type;
     this.classB = classB;
     this.selected = false;
-    this.RelationFigure = new RelationshipFigure(
+    this.figure = new RelationshipFigure(
             classA.getPosition().x, classA.getPosition().y, 
             classB.getPosition().x, classB.getPosition().y);
   }
   
+  @Override
   public void addObserver(GraphsClass observer){
     this.observer = observer;
   }
   
-  public void remove(){
+  @Override
+  public void notifyRemove(){
     observer.updateRemoveRelation(this);
   }
 
@@ -43,22 +38,7 @@ public class Relationship implements Selectable, EditableRelationship {
   public Class getClassB() {
     return classB;
   }
-
-  @Override
-  public void select() {
-    selected = true;
-  }
-
-  @Override
-  public void deselect() {
-    selected = false;
-  }
-
-  @Override
-  public boolean isSelected() {
-    return selected;
-  }
-
+  
   @Override
   public void changeType(TypeRelationship type) {
     if(rulesOOP(classA, type, classB)){
@@ -66,6 +46,7 @@ public class Relationship implements Selectable, EditableRelationship {
     }
   }
 
+  @Override
   public TypeRelationship getType() {
     return type;
   }
@@ -122,6 +103,16 @@ public class Relationship implements Selectable, EditableRelationship {
       }
     }
     return false;
+  }
+
+
+  public boolean intersects(Point p){
+    return figure.intersects(p);
+  }
+  
+  @Override
+  public void notifyChangeType() {
+
   }
 
 }
