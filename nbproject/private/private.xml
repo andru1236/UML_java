@@ -3,16 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/view/Toolkit.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/test/logicUML/GraphsClassTest.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/Scheme.java</file>
-            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/view/Tools.java</file>
-            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/view/View.java</file>
+            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/CodeGenerate.java</file>
+            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/behavior/Subject.java</file>
+            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/GraphsClass.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/test/logicUML/ClassTest.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/test/logicUML/CodeGenerateTest.java</file>
-            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/view/ViewCanvas.java</file>
+            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/behavior/TypeRelationship.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/test/logicUML/SchemeTest.java</file>
-            <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/view/ListenerCanvas.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/geometricRepresentation/Figure.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/Class.java</file>
             <file>file:/home/andru1236/NetBeansProjects/finalProject/AndresGutierrez/src/logicUML/geometricRepresentation/ClassFigure.java</file>

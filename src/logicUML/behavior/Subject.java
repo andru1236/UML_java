@@ -1,9 +1,8 @@
 package logicUML.behavior;
 
-import java.util.Observer;
 import logicUML.GraphsClass;
 
-public interface Subject<T> {
+public interface Subject {
   
   public void addObserver(GraphsClass observer);
   

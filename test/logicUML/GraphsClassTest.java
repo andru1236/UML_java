@@ -1,6 +1,7 @@
 package logicUML;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
 import org.junit.Test;
@@ -175,7 +176,60 @@ public class GraphsClassTest {
     conexNumber++;
     testCase.addConexion(c, imp, i);
     assertEquals(conexNumber, testCase.getConexions(c).size());
+    
+    resetGraph();
+    resetRelations();
+    
+    testCase.addConexion(c, inh, a);
+    testCase.addConexion(c, imp, i);
+    conexNumber = 2;
+    assertEquals(conexNumber, testCase.getConexions(c).size());
+    
+    
+  }
+  
+  @Test
+  public void addConexionDobleInheritanceTest(){
+    resetGraph();
+    resetRelations();
+    Class a2 = new Class("Abstract2", TypeClass.ABTRACT, new Point(100, 160));
+    
+    ArrayList<Relationship> conexions = testCase.getConexions(c);
+    for(Relationship c: conexions){
+      System.out.println(c.getType());
+    }
 
+    testCase.addConexion(c, inh, a);
+    testCase.addConexion(c, inh, a2);
+    int conexNumber = 1;
+    assertEquals(conexNumber, testCase.getConexions(c).size());
+
+  }
+  
+  @Test
+  public void removeConexionInheritanceTest(){
+    resetGraph();
+    resetRelations();
+    Class a2 = new Class("Abstract2", TypeClass.ABTRACT, new Point(100, 160));
+    
+    ArrayList<Relationship> conexions = testCase.getConexions(c);
+    for(Relationship c: conexions){
+      System.out.println(c.getType());
+    }
+
+    testCase.addConexion(c, inh, a);
+    testCase.addConexion(c, inh, a2);
+    int conexNumber = 1;
+    assertEquals(conexNumber, testCase.getConexions(c).size());
+    
+
+    testCase.removeConexion(c, inh, a);
+    conexNumber = 0;
+    assertEquals(conexNumber, testCase.getConexions(c).size());
+
+    testCase.addConexion(c, inh, a2);
+    conexNumber = 1;
+    assertEquals(conexNumber, testCase.getConexions(c).size()); 
   }
 
   @Test

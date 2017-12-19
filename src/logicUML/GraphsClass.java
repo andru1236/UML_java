@@ -54,9 +54,17 @@ public class GraphsClass {
         conexion.addObserver(this);
         Relationship conexionExistent = findConexion(conexion, a);
         if (conexionExistent == null){
-          graph.get(a).add(conexion);
-          a.addRelation(conexion);
-          b.addRelation(conexion);
+          if(conexion.getType() == TypeRelationship.INHERITANCE){
+            if(!a.isInherit()){
+              graph.get(a).add(conexion);
+              a.addRelation(conexion);
+              b.addRelation(conexion);
+            }
+          }else{
+            graph.get(a).add(conexion);
+            a.addRelation(conexion);            
+            b.addRelation(conexion);
+          }
         }
       }
     }
@@ -67,6 +75,7 @@ public class GraphsClass {
     conexion = findConexion(conexion, a);
     if(conexion != null){
       graph.get(a).remove(conexion);
+      conexion.notifyRemove();
     }
   }
   
@@ -194,6 +203,19 @@ public class GraphsClass {
   
   public void move(Class a, Point p){
     a.changePosition(p);
+  }
+  
+  public boolean conexionsIsEmpty(){
+    for (Class c : graph.keySet()) {
+      if(!getConexions(c).isEmpty()){
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public int getNumberNodes(){
+    return graph.size();
   }
 
 }

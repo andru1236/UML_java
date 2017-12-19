@@ -28,6 +28,9 @@ public class Relationship extends Component<TypeRelationship> {
   
   @Override
   public void notifyRemove(){
+    if(type == TypeRelationship.INHERITANCE){
+      classA.setInherit(false);
+    }
     observer.updateRemoveRelation(this);
   }
 

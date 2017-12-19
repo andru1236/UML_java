@@ -47,7 +47,7 @@ public class RelationshipTest {
     boolean expectedResult = false;
     assertEquals(expectedResult, testCase.isSelected());
     testCase.select();
-    testCase.deselect();
+    testCase.select();
     assertEquals(expectedResult, testCase.isSelected());
   }
 
