@@ -2,11 +2,12 @@ package logicUML;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
 
-public class Scheme {
+public class Scheme implements Serializable{
   
   private GraphsClass graph;
   private ArrayList<GraphsClass> undoList;
@@ -66,6 +67,7 @@ public class Scheme {
       Component classA = listSelected.get(CLASS_A);
       Component classB = listSelected.get(CLASS_B);      
       if(classA instanceof Class && classB instanceof Class){
+        undoList.add(graph.clonGraph());
         graph.addConexion((Class) classA, type, (Class) classB);
       }
     }
@@ -133,6 +135,22 @@ public class Scheme {
     resetListSelected();
   }
   
+  public void changeName(String name){
+    if(!listSelected.isEmpty()){
+      Class classFond = graph.getNode(name);
+      if(classFond == null){
+        undoList.add(graph.clonGraph());
+        for (Component selected : listSelected) {
+          if (selected instanceof Class) {
+            graph.getNode((Class) selected).changeName(name);
+            break;
+          }
+        }
+      }
+    }
+    resetListSelected();
+  }
+  
   public void remove(){
     if(!listSelected.isEmpty()){
       undoList.add(graph.clonGraph());
@@ -150,8 +168,24 @@ public class Scheme {
     resetListSelected();
   }
   
+  public void clearAll(){
+    undoList.add(graph.clonGraph());
+    graph = new GraphsClass();
+  }
+  
   public Component getComponent(Point p){
     return graph.select(p);
+  }
+  
+  public String firstClassSelected(){
+    if(!listSelected.isEmpty()){
+      for (Component component : listSelected) {
+        if(component instanceof Class){
+          return ((Class) component).getName();
+        }
+      }
+    }
+    return "";
   }
   
   public void draw(Graphics g){
@@ -160,6 +194,10 @@ public class Scheme {
   
   public void show(){
     graph.show();
+  }
+  
+  public void exportFilesJava(){
+    graph.exportFiles();
   }
   
 }

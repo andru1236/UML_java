@@ -9,7 +9,7 @@ public interface Tool {
 
   public void startAction(Point p, Scheme scheme);
 
-  public void continueAction(Point p);
+  public void continueAction(Point p, Scheme scheme);
 
-  public void endAction(Point p);
+  public void endAction(Point p, Scheme scheme);
 }

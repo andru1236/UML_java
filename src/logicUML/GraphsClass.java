@@ -2,12 +2,17 @@ package logicUML;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
 
-public class GraphsClass {
+public class GraphsClass implements Serializable{
 
   private HashMap<Class, ArrayList<Relationship>> graph;
           
@@ -155,9 +160,9 @@ public class GraphsClass {
       for (Class c : graph.keySet()) {
         ArrayList<Relationship> conexions = getConexions(c);
         for(Relationship relation : conexions){
-          Relationship clonRelationship = Relationship.makeRelationship(
+          clon.addConexion(
                   clon.getNode(relation.getClassA().getName()), 
-                  relation.getType(), 
+                  relation.getType(),
                   clon.getNode(relation.getClassB().getName()));
         }
       }
@@ -168,7 +173,7 @@ public class GraphsClass {
     return clon;
   }
   
-  private Class getNode(String node){
+  public Class getNode(String node){
     if(!graph.isEmpty()){
       for(Class c : graph.keySet()){
         if(c.getName().equals(node)){
@@ -221,8 +226,31 @@ public class GraphsClass {
   
   public void draw(Graphics g) {
     if (!graph.isEmpty()) {
+      for(Class c : graph.keySet()){
+        ArrayList<Relationship> conexions = getConexions(c);
+        for(Relationship conexion : conexions){
+          conexion.draw(g);
+        }
+      }
       for (Class c : graph.keySet()) {
         c.draw(g);
+      }
+    }
+  }
+  
+  public void exportFiles(){
+    if(!graph.isEmpty()){
+      for(Class c : graph.keySet()){
+        File fileJava = new File(c.getName()+".java");
+        try {
+          FileWriter w = new FileWriter(fileJava);
+          BufferedWriter bw = new BufferedWriter(w);
+          PrintWriter wr = new PrintWriter(bw);
+          wr.write(c.generateCode());
+          wr.close();
+          bw.close();
+        } catch (Exception e) {
+        }
       }
     }
   }

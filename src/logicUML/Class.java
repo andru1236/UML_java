@@ -1,6 +1,7 @@
 package logicUML;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
@@ -29,6 +30,7 @@ public class Class extends Component<TypeClass> {
     this.figure.setSelected(selected) ;
     this.figure.setName(name);
     this.figure.setPositionName(position);
+    this.figure.setType(type);
   }
   
   @Override
@@ -56,12 +58,15 @@ public class Class extends Component<TypeClass> {
   public void changePosition(Point newPosition) {
     this.position = newPosition;
     this.figure.setPositionName(position);
+    for (Relationship relation : relations) {
+      relation.updatePosition();
+    }
   }
 
   @Override
   public void changeType(TypeClass type) {
     this.type = type;
-    this.figure.setType(this.type);
+    this.figure.setType(type);
     notifyChangeType();
   }
 

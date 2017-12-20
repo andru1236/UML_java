@@ -11,7 +11,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import logicUML.Scheme;
+import view.tools.CreateAbstract;
 import view.tools.CreateClass;
+import view.tools.CreateInterface;
+import view.tools.Move;
 import view.tools.Select;
 import view.tools.Tool;
 
@@ -28,7 +31,7 @@ public class DesingUML extends View{
     toolbar = createToolBar();
     getContentPane().add(toolbar, BorderLayout.WEST);
     JMenu menu = createToolMenu();
-    menuBar.add(menu, 3);
+    menuBar.add(menu, 2);
     
     revalidate();
   }
@@ -51,15 +54,17 @@ public class DesingUML extends View{
   }
   
   public void draw(){
-    revalidate();
     canvas.repaint();
+    revalidate();
   }
   
   private void initTools() {
     toolkit = new ToolKit();
     toolkit.addTool(new CreateClass());
+    toolkit.addTool(new CreateAbstract());
+    toolkit.addTool(new CreateInterface());
     toolkit.addTool(new Select());
-    
+    toolkit.addTool(new Move());
   }
   
   private JComponent createToolBar() {

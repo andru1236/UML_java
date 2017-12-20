@@ -52,17 +52,13 @@ public abstract class View extends JFrame {
 
   }
   
-  // factory method 
-//  protected ViewCanvas makeCanvas() {
-//    return new ViewCanvas();
-//  }
-  
   protected JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
     addFileMenu(menuBar);
-    addViewMenu(menuBar);
     addEditMenu(menuBar);
+    addViewMenu(menuBar);
     addOptionMenu(menuBar);
+    addChangeMenu(menuBar);
     
     menuBar.add(Box.createHorizontalGlue());
     addHelpMenu(menuBar);
@@ -76,19 +72,23 @@ public abstract class View extends JFrame {
     
     menuFileItem = new JMenuItem("New");
     menu.add(menuFileItem);
-//    menuFileItem.addActionListener(event -> newFile());
+    menuFileItem.addActionListener(event -> newFile());
 
     menuFileItem = new JMenuItem("Open");
     menu.add(menuFileItem);
-//    menuFileItem.addActionListener(event -> openFileListener());
+    menuFileItem.addActionListener(event -> openFileListener());
 
     menuFileItem = new JMenuItem("Save");
     menu.add(menuFileItem);
-//    menuFileItem.addActionListener(event -> saveFile());
+    menuFileItem.addActionListener(event -> saveFile());
 
     menuFileItem = new JMenuItem("Save As");
     menu.add(menuFileItem);
-//    menuFileItem.addActionListener(event -> saveAsFileListener());
+    menuFileItem.addActionListener(event -> saveAsFileListener());
+    
+    menuFileItem = new JMenuItem("Export");
+    menu.add(menuFileItem);
+    menuFileItem.addActionListener(event -> controller.exportToFiles());
 
     menu.add(new JSeparator());
 
@@ -118,13 +118,9 @@ public abstract class View extends JFrame {
     menu.add(menuEditItem);
 //    menuEditItem.addActionListener(event -> canvas.ungroupShapes());
     
-    menuEditItem = new JMenuItem("Select all");
-    menu.add(menuEditItem);
-//    menuEditItem.addActionListener(event -> canvas.selectAll());
-    
     menuEditItem = new JMenuItem("Clear all");
     menu.add(menuEditItem);
-//    menuEditItem.addActionListener(event -> canvas.clearAll());
+    menuEditItem.addActionListener(event -> controller.clearAll());
   }
   
   private void addOptionMenu(JMenuBar menuBar){
@@ -132,23 +128,23 @@ public abstract class View extends JFrame {
     JMenuItem menuRelationship;
     menuBar.add(menu);
      
-    menuRelationship = new JMenuItem("INHERITANCE");
+    menuRelationship = new JMenuItem("inheritance");
     menu.add(menuRelationship);
     menuRelationship.addActionListener(event -> controller.inheritance());
     
-    menuRelationship = new JMenuItem("ASSOCIATION");
+    menuRelationship = new JMenuItem("association");
     menu.add(menuRelationship);
     menuRelationship.addActionListener(event -> controller.association());
     
-    menuRelationship = new JMenuItem("AGGREGATION");
+    menuRelationship = new JMenuItem("aggregation");
     menu.add(menuRelationship);
     menuRelationship.addActionListener(event -> controller.aggregation());    
     
-    menuRelationship = new JMenuItem("COMPOSITION");
+    menuRelationship = new JMenuItem("composition");
     menu.add(menuRelationship);
     menuRelationship.addActionListener(event -> controller.composition());    
     
-    menuRelationship = new JMenuItem("IMPLEMENTS");
+    menuRelationship = new JMenuItem("implements");
     menu.add(menuRelationship);
     menuRelationship.addActionListener(event -> controller.implementsRelation());    
     
@@ -168,6 +164,62 @@ public abstract class View extends JFrame {
     menuOptionItem.addActionListener(event -> showTools());
   }
   
+  private void addChangeMenu(JMenuBar menuBar){
+    JMenu menu = new JMenu("Change");
+    JMenuItem menuChange;
+    JMenu multiMenu;
+    menuBar.add(menu);
+    
+    multiMenu = new JMenu("Classes");
+    
+    menuChange = new JMenuItem("Interface");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeInterface());
+    
+    menuChange = new JMenuItem("Abstract");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeAbstract());
+    
+    menuChange = new JMenuItem("Concrete Class");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeConcrete());    
+    
+    menu.add(multiMenu);
+    
+    multiMenu = new JMenu("Relations");
+    
+    menuChange = new JMenuItem("inheritance");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeInheritance());  
+    
+    menuChange = new JMenuItem("association");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeAssociation());  
+    
+    menuChange = new JMenuItem("aggregation");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeAggregation());  
+    
+    menuChange = new JMenuItem("composition");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeComposition());  
+    
+    menuChange = new JMenuItem("implements");
+    multiMenu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeImplementsRelation());  
+    
+    menu.add(multiMenu);
+    
+    menuChange = new JMenuItem("Remove");
+    menu.add(menuChange);
+    menuChange.addActionListener(event -> controller.remove());
+    
+    menuChange = new JMenuItem("Name Class");
+    menu.add(menuChange);
+    menuChange.addActionListener(event -> controller.changeNameClass());
+    
+  }
+  
   private void addHelpMenu(JMenuBar menuBar){
     JMenu menu = new JMenu("Help");
     JMenuItem menuHelpItem;
@@ -178,46 +230,46 @@ public abstract class View extends JFrame {
     menuHelpItem.addActionListener(event -> aboutListener());
   }
 
-//  private void newFile() {
-//    currentFilename = null;
-//    canvas.newFile();
-//    setTitle("Scribble Pad");
-//  }
-//  
-//  private void openFileListener() {
-//    int retval = chooser.showDialog(null, "Open");
-//    if (retval == JFileChooser.APPROVE_OPTION) {
-//      File theFile = chooser.getSelectedFile();
-//      if (theFile != null) {
-//        if (theFile.isFile()) {
-//          String filename = chooser.getSelectedFile().getAbsolutePath();
-//          openFile(filename);
-//        }
-//      }
-//    }
-//  }
-//  
-//  private void saveFile() {
-//    if (currentFilename == null) {
-//      currentFilename = "Untitled";
-//    }
-//    canvas.saveFile(currentFilename);
-//    setTitle("Scribble Pad [" + currentFilename + "]");
-//  }
-//  
-//  private void saveAsFileListener() {
-//    int retval = chooser.showDialog(null, "Save As");
-//    if (retval == JFileChooser.APPROVE_OPTION) {
-//      File theFile = chooser.getSelectedFile();
-//      if (theFile != null) {
-//        if (!theFile.isDirectory()) {
-//          String filename = chooser.getSelectedFile().getAbsolutePath();
-//          saveFileAs(filename);
-//        }
-//      }
-//    }
-//  }
-//  
+  private void newFile() {
+    currentFilename = null;
+    controller.newScheme();
+    setTitle("UML Pad");
+  }
+  
+  private void openFileListener() {
+    int retval = chooser.showDialog(null, "Open");
+    if (retval == JFileChooser.APPROVE_OPTION) {
+      File theFile = chooser.getSelectedFile();
+      if (theFile != null) {
+        if (theFile.isFile()) {
+          String filename = chooser.getSelectedFile().getAbsolutePath();
+          openFile(filename);
+        }
+      }
+    }
+  }
+  
+  private void saveFile() {
+    if (currentFilename == null) {
+      currentFilename = "Untitled";
+    }
+    controller.saveFile(currentFilename);
+    setTitle("Scribble Pad [" + currentFilename + "]");
+  }
+  
+  private void saveAsFileListener() {
+    int retval = chooser.showDialog(null, "Save As");
+    if (retval == JFileChooser.APPROVE_OPTION) {
+      File theFile = chooser.getSelectedFile();
+      if (theFile != null) {
+        if (!theFile.isDirectory()) {
+          String filename = chooser.getSelectedFile().getAbsolutePath();
+          saveFileAs(filename);
+        }
+      }
+    }
+  }
+  
   protected void hideTools(){
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(menuBar, BorderLayout.NORTH);
@@ -233,7 +285,7 @@ public abstract class View extends JFrame {
             "Exit Scribble Pad?",
             JOptionPane.YES_NO_OPTION);
     if (result == JOptionPane.YES_OPTION) {
-//      saveFile();
+      saveFile();
       System.exit(0);
     } else {
       setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -245,18 +297,18 @@ public abstract class View extends JFrame {
             "UML Diagram version 1.0\nCopyright (c) Andres Gutierrez 2017", "About",
             JOptionPane.INFORMATION_MESSAGE);
   }
-//  
-//  protected void openFile(String filename) {
-//    currentFilename = filename;
-//    canvas.openFile(filename);
-//    setTitle("Scribble Pad [" + currentFilename + "]");
-//  }
-//
-//  protected void saveFileAs(String filename) {
-//    currentFilename = filename;
-//    canvas.saveFile(filename);
-//    setTitle("Scribble Pad [" + currentFilename + "]");
-//  }
-//  
+  
+  protected void openFile(String filename) {
+    currentFilename = filename;
+    controller.openFile(filename);
+    setTitle("Scribble Pad [" + currentFilename + "]");
+  }
+
+  protected void saveFileAs(String filename) {
+    currentFilename = filename;
+    controller.saveFile(filename);
+    setTitle("Scribble Pad [" + currentFilename + "]");
+  }
+  
 }
 

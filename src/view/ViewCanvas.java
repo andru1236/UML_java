@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.EventListener;
 import javax.swing.JPanel;
@@ -19,6 +20,9 @@ public class ViewCanvas extends JPanel{
   
   @Override
   public void paint(Graphics g){
+    Dimension dim = getSize();
+    g.setColor(Color.white);
+    g.fillRect(0, 0, dim.width, dim.height);
     if(scheme != null){
       scheme.draw(g); 
       scheme.show();

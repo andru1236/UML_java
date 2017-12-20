@@ -16,9 +16,15 @@ public class Relationship extends Component<TypeRelationship> {
     this.type = type;
     this.classB = classB;
     this.selected = false;
+    initFigure();
+  }
+  
+  private void initFigure(){
     this.figure = new RelationshipFigure(
-            classA.getPosition().x, classA.getPosition().y, 
-            classB.getPosition().x, classB.getPosition().y);
+            classA.getPosition().x , classA.getPosition().y +25, 
+            classB.getPosition().x , classB.getPosition().y -36);
+    this.figure.setSelected(selected) ;
+    this.figure.setType(type);
   }
   
   @Override
@@ -42,13 +48,21 @@ public class Relationship extends Component<TypeRelationship> {
     return classB;
   }
   
+  public void updatePosition(){
+    this.figure = new RelationshipFigure(
+            classA.getPosition().x , classA.getPosition().y, 
+            classB.getPosition().x - 40 , classB.getPosition().y - 40 );
+    this.figure.setType(type);
+  }
+  
   @Override
   public void changeType(TypeRelationship type) {
     if(rulesOOP(classA, type, classB)){
       if(classA.isInherit() && this.type == TypeRelationship.INHERITANCE){
         classA.setInherit(false);
       }
-      this.type = type;      
+      this.type = type; 
+      this.figure.setType(type);
     }
   }
 
@@ -110,8 +124,7 @@ public class Relationship extends Component<TypeRelationship> {
     }
     return false;
   }
-
-
+  
   public boolean intersects(Point p){
     return figure.intersects(p);
   }

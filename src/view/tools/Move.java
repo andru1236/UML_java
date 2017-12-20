@@ -3,12 +3,12 @@ package view.tools;
 import java.awt.Point;
 import logicUML.Scheme;
 
-public class Select implements Tool{
+public class Move implements Tool{
 
   private String nameTool;
 
-  public Select() {
-    nameTool = "Select";
+  public Move() {
+    nameTool = "Move";
   }
   
   @Override
@@ -18,17 +18,16 @@ public class Select implements Tool{
 
   @Override
   public void startAction(Point p, Scheme scheme) {
-    scheme.select(p);
+    scheme.move(p);
   }
 
   @Override
   public void continueAction(Point p, Scheme scheme) {
-
   }
 
   @Override
   public void endAction(Point p, Scheme scheme) {
-
+    
   }
   
 }

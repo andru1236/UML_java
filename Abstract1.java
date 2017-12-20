@@ -1,0 +1,1 @@
+public abstract class Abstract1 extends Abstract1{}

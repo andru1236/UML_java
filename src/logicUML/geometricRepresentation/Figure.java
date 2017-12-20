@@ -3,8 +3,9 @@ package logicUML.geometricRepresentation;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.Serializable;
 
-public abstract class Figure<T> implements Editable<T>{
+public abstract class Figure<T> implements Editable<T>, Serializable{
 
   protected int x1;
   protected int y1;
@@ -45,6 +46,10 @@ public abstract class Figure<T> implements Editable<T>{
   @Override
   public void setPositionName(Point p) {
     this.positionName = p;
+    this.x1 = p.x - 50;
+    this.y1 = p.y - 25;
+    this.x2 = p.x + 50; 
+    this.y2 = p.y + 25;
   }
   
   @Override
@@ -56,6 +61,7 @@ public abstract class Figure<T> implements Editable<T>{
   public void setType(T type) {
    this.type = type;
   }
+  
   
   public abstract boolean intersects(Point p);
   

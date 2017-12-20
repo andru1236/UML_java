@@ -1,11 +1,12 @@
 package logicUML;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import logicUML.behavior.Selectable;
 import logicUML.behavior.Subject;
 import logicUML.geometricRepresentation.Figure;
 
-public abstract class Component<T> implements Selectable, Subject {
+public abstract class Component<T> implements Selectable, Subject, Serializable{
 
   protected boolean selected;
   protected GraphsClass observer;
