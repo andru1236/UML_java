@@ -335,7 +335,7 @@ public class SchemeTest {
     assertEquals(expectedResult, scheme.existRelations());
     
     expectedResult = false;
-    Point pointRelation = new Point(50, 65);
+    Point pointRelation = new Point(50, 52);
     scheme.select(pointRelation);
     assertEquals(expectedResult, scheme.getListSelected().isEmpty());
     

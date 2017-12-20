@@ -35,7 +35,7 @@ public class GraphsClassTest {
 
     i = new Class("Intercace", TypeClass.INTERFACE, new Point(0, 0));
     a = new Class("Abstract", TypeClass.ABTRACT, new Point(50, 25));
-    c = new Class("ConcretClass", TypeClass.CONCRETE_CLASS, new Point(250, 25));
+    c = new Class("ConcretClass", TypeClass.CONCRETE_CLASS, new Point(50, 100));
 
     testCase.addNode(i);
     testCase.addNode(a);
@@ -351,12 +351,12 @@ public class GraphsClassTest {
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
     
-    Component selectedClass = testCase.select(new Point(225, 25));
+    Component selectedClass = testCase.select(new Point(40, 100));
     Class expectedResult = c;
     
     assertEquals(expectedResult, selectedClass);
     
-    Component selecteRelation = testCase.select(new Point(180, 25));
+    Component selecteRelation = testCase.select(new Point(50, 65));
     Relationship expentedRelationship = testCase.findConexion(c, inh, a);
     
     assertEquals(expentedRelationship, selecteRelation);
