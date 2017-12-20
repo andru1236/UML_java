@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import view.tools.Tool;
 
 public class ToolKit {
-  protected ArrayList<Tool> tools ;
+
+  protected ArrayList<Tool> tools;
   protected Tool selectedTool;
 
   public ToolKit() {
     tools = new ArrayList<>(16);
-    selectedTool = null ;
+    selectedTool = null;
   }
 
   public int addTool(Tool tool) {

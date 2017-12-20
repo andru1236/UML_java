@@ -9,7 +9,7 @@ import java.awt.Polygon;
 import java.awt.geom.GeneralPath;
 import logicUML.behavior.TypeRelationship;
 
-public class RelationshipFigure extends Figure<TypeRelationship>{
+public class RelationshipFigure extends Figure<TypeRelationship> {
 
   private final double EPS = 0.01;
 
@@ -44,7 +44,7 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
             + Math.abs(yv1) == Math.abs(yv2);
     return res;
   }
-  
+
   @Override
   public Figure clonFigure() {
     RelationshipFigure clon = new RelationshipFigure(x1, y1, x2, y2);
@@ -56,14 +56,13 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
 
   @Override
   public void draw(Graphics g) {
-    
-    if(selected){
+
+    if (selected) {
       g.setColor(Color.RED);
-    }
-    else{
+    } else {
       g.setColor(Color.BLACK);
     }
-    
+
     switch (type) {
       case AGGREGATION:
         filled = false;
@@ -102,12 +101,12 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
     }
 
   }
-  
+
   public void basicStroke(Graphics2D g2d) {
     g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT,
-        BasicStroke.JOIN_BEVEL, 0, DASHED_STROKE, 0));
+            BasicStroke.JOIN_BEVEL, 0, DASHED_STROKE, 0));
   }
-  
+
   public void drawTriangle(Graphics2D g2g, int x1, int y1, int x2, int y2) {
 
     polygon = new Polygon();
@@ -173,7 +172,7 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
 
     g2g.drawPolygon(polygon);
   }
-  
+
   public void drawTwoLines(Graphics2D g2d, int x1, int y1, int x2, int y2) {
 
     node = new GeneralPath(GeneralPath.WIND_EVEN_ODD, SIDES_2);
@@ -238,7 +237,7 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
 
     g2d.draw(node);
   }
-  
+
   public void drawRhombus(Graphics2D g2d, int x1, int y1, int x2, int y2) {
 
     node = new GeneralPath(GeneralPath.WIND_EVEN_ODD, SIDES_4);
@@ -286,5 +285,5 @@ public class RelationshipFigure extends Figure<TypeRelationship>{
   public void setType(TypeRelationship type) {
     this.type = type;
   }
-  
+
 }

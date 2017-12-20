@@ -10,13 +10,13 @@ import static org.junit.Assert.assertEquals;
 public class GraphsClassTest {
 
   GraphsClass testCase;
-  
+
   TypeRelationship imp;
   TypeRelationship inh;
   TypeRelationship aso;
   TypeRelationship agr;
   TypeRelationship com;
-  
+
   Class i;
   Class a;
   Class c;
@@ -53,37 +53,37 @@ public class GraphsClassTest {
     expectResult = false;
     assertEquals(testCase.isEmpty(), expectResult);
   }
-  
+
   @Test
-  public void changeTypeNode(){
+  public void changeTypeNode() {
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, imp, i);
     TypeClass expectedResult = TypeClass.INTERFACE;
     int conexionNumber = 1;
     assertEquals(expectedResult, i.getType());
     assertEquals(conexionNumber, testCase.getConexions(c).size());
-    
+
     testCase.changeNodeType(i, TypeClass.ABTRACT);
     expectedResult = TypeClass.ABTRACT;
     conexionNumber = 0;
     assertEquals(expectedResult, i.getType());
     assertEquals(conexionNumber, testCase.getConexions(c).size());
-    
+
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     conexionNumber = 1;
     assertEquals(expectedResult, a.getType());
     assertEquals(conexionNumber, testCase.getConexions(c).size());
     testCase.changeNodeType(c, TypeClass.CONCRETE_CLASS);
     assertEquals(conexionNumber, testCase.getConexions(c).size());
-    
+
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     conexionNumber = 1;
     assertEquals(expectedResult, a.getType());
@@ -92,8 +92,8 @@ public class GraphsClassTest {
     assertEquals(conexionNumber, testCase.getConexions(a).size());
     testCase.changeNodeType(a, TypeClass.INTERFACE);
     conexionNumber = 0;
-    assertEquals(conexionNumber, testCase.getConexions(c).size());    
-    assertEquals(conexionNumber, testCase.getConexions(a).size());    
+    assertEquals(conexionNumber, testCase.getConexions(c).size());
+    assertEquals(conexionNumber, testCase.getConexions(a).size());
   }
 
   @Test
@@ -110,20 +110,20 @@ public class GraphsClassTest {
     testCase.removeNode(abs);
     expectResult = true;
     assertEquals(testCase.isEmpty(), expectResult);
-    
+
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
     int conexionNumber = 1;
-    
+
     assertEquals(conexionNumber, testCase.getConexions(c).size());
     assertEquals(conexionNumber, testCase.getConexions(a).size());
     testCase.removeNode(a);
     conexionNumber = 0;
     assertEquals(conexionNumber, testCase.getConexions(c).size());
-    
+
   }
 
   @Test
@@ -176,26 +176,25 @@ public class GraphsClassTest {
     conexNumber++;
     testCase.addConexion(c, imp, i);
     assertEquals(conexNumber, testCase.getConexions(c).size());
-    
+
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     testCase.addConexion(c, imp, i);
     conexNumber = 2;
     assertEquals(conexNumber, testCase.getConexions(c).size());
-    
-    
+
   }
-  
+
   @Test
-  public void addConexionDobleInheritanceTest(){
+  public void addConexionDobleInheritanceTest() {
     resetGraph();
     resetRelations();
     Class a2 = new Class("Abstract2", TypeClass.ABTRACT, new Point(100, 160));
-    
+
     ArrayList<Relationship> conexions = testCase.getConexions(c);
-    for(Relationship c: conexions){
+    for (Relationship c : conexions) {
       System.out.println(c.getType());
     }
 
@@ -205,15 +204,15 @@ public class GraphsClassTest {
     assertEquals(conexNumber, testCase.getConexions(c).size());
 
   }
-  
+
   @Test
-  public void removeConexionInheritanceTest(){
+  public void removeConexionInheritanceTest() {
     resetGraph();
     resetRelations();
     Class a2 = new Class("Abstract2", TypeClass.ABTRACT, new Point(100, 160));
-    
+
     ArrayList<Relationship> conexions = testCase.getConexions(c);
-    for(Relationship c: conexions){
+    for (Relationship c : conexions) {
       System.out.println(c.getType());
     }
 
@@ -221,7 +220,6 @@ public class GraphsClassTest {
     testCase.addConexion(c, inh, a2);
     int conexNumber = 1;
     assertEquals(conexNumber, testCase.getConexions(c).size());
-    
 
     testCase.removeConexion(c, inh, a);
     conexNumber = 0;
@@ -229,7 +227,7 @@ public class GraphsClassTest {
 
     testCase.addConexion(c, inh, a2);
     conexNumber = 1;
-    assertEquals(conexNumber, testCase.getConexions(c).size()); 
+    assertEquals(conexNumber, testCase.getConexions(c).size());
   }
 
   @Test
@@ -266,42 +264,42 @@ public class GraphsClassTest {
     countConex--;
     assertEquals(countConex, testCase.getConexions(c).size());
   }
-  
+
   @Test
-  public void removeConexionRelationshipTest(){
+  public void removeConexionRelationshipTest() {
     resetGraph();
     resetRelations();
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
-    
+
     int conexionNumber = 1;
-    
+
     Relationship conexInh = Relationship.makeRelationship(c, inh, a);
     Relationship conexImp = Relationship.makeRelationship(a, imp, i);
     assertEquals(conexionNumber, testCase.getConexions(c).size());
     assertEquals(conexionNumber, testCase.getConexions(a).size());
-    
+
     testCase.removeConexion(conexInh);
     assertEquals(conexionNumber, testCase.getConexions(a).size());
     conexionNumber = 0;
     assertEquals(conexionNumber, testCase.getConexions(c).size());
   }
-  
+
   @Test
-  public void changeConexionTest(){
+  public void changeConexionTest() {
     resetGraph();
     resetRelations();
-    
+
     int conexionNumber = 1;
     testCase.addConexion(c, inh, a);
     assertEquals(testCase.getConexions(c).size(), conexionNumber);
-    
+
     Relationship relation = testCase.findConexion(c, inh, a);
-    
-    TypeRelationship expectResult = TypeRelationship.INHERITANCE;    
+
+    TypeRelationship expectResult = TypeRelationship.INHERITANCE;
     testCase.changeConexion(relation, imp);
     assertEquals(expectResult, relation.getType());
-    
+
     expectResult = TypeRelationship.COMPOSITION;
     testCase.changeConexion(relation, com);
     assertEquals(expectResult, relation.getType());
@@ -320,59 +318,59 @@ public class GraphsClassTest {
     assertEquals(a, testCase.getNode(a));
     assertEquals(b, testCase.getNode(b));
   }
-  
-  @Test 
-  public void clonTest(){
+
+  @Test
+  public void clonTest() {
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
-    
+
     GraphsClass clon = testCase.clonGraph();
     testCase.show();
     System.out.println("");
     clon.show();
     System.out.println("");
-    
+
     testCase.changeNodeType(a, TypeClass.CONCRETE_CLASS);
     a.changeName("CONCRETA");
-    
+
     testCase.show();
     System.out.println("");
     clon.show();
   }
-  
+
   @Test
-  public void selectedTest(){
+  public void selectedTest() {
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
-    
+
     Component selectedClass = testCase.select(new Point(40, 100));
     Class expectedResult = c;
-    
+
     assertEquals(expectedResult, selectedClass);
-    
+
     Component selecteRelation = testCase.select(new Point(50, 65));
     Relationship expentedRelationship = testCase.findConexion(c, inh, a);
-    
+
     assertEquals(expentedRelationship, selecteRelation);
   }
-  
+
   @Test
-  public void moveNodeTest(){
+  public void moveNodeTest() {
     resetGraph();
     resetRelations();
-    
+
     testCase.addConexion(c, inh, a);
     testCase.addConexion(a, imp, i);
-    
+
     Point expectedPoint = new Point(100, 25);
     testCase.move(c, expectedPoint);
-    
+
     assertEquals(testCase.getNode(c).getPosition(), expectedPoint);
   }
 

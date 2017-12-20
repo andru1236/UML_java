@@ -18,46 +18,46 @@ import view.tools.Move;
 import view.tools.Select;
 import view.tools.Tool;
 
-public class DesingUML extends View{
-  
+public class DesingUML extends View {
+
   private ToolKit toolkit;
-  private JComponent toolbar;    
-  
+  private JComponent toolbar;
+
   public DesingUML(String title, ControllerUI controller) {
     super(title, controller);
     init();
     initTools();
-    
+
     toolbar = createToolBar();
     getContentPane().add(toolbar, BorderLayout.WEST);
     JMenu menu = createToolMenu();
     menuBar.add(menu, 2);
-    
+
     revalidate();
   }
-  
-  private void init(){
+
+  private void init() {
     setSize(width, height);
     Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-    setLocation(screenSize.width  / 2 - width  / 2,
-                screenSize.height / 2 - height / 2);
+    setLocation(screenSize.width / 2 - width / 2,
+            screenSize.height / 2 - height / 2);
     setVisible(true);
   }
-  
-  public void addController(ControllerUI controller){
+
+  public void addController(ControllerUI controller) {
     this.controller = controller;
     controller.setTool(toolkit.getTool(0));
   }
-  
-  public void addScheme(Scheme scheme){
+
+  public void addScheme(Scheme scheme) {
     canvas.addScheme(scheme);
   }
-  
-  public void draw(){
+
+  public void draw() {
     canvas.repaint();
     revalidate();
   }
-  
+
   private void initTools() {
     toolkit = new ToolKit();
     toolkit.addTool(new CreateClass());
@@ -66,7 +66,7 @@ public class DesingUML extends View{
     toolkit.addTool(new Select());
     toolkit.addTool(new Move());
   }
-  
+
   private JComponent createToolBar() {
     JPanel toolbar = new JPanel(new GridLayout(0, 1));
     int n = toolkit.getToolCount();
@@ -80,7 +80,7 @@ public class DesingUML extends View{
     }
     return toolbar;
   }
-  
+
   private void selectedTool(ActionEvent event) {
     Object source = event.getSource();
     if (source instanceof AbstractButton) {
@@ -89,7 +89,7 @@ public class DesingUML extends View{
       controller.setTool(tool);
     }
   }
-  
+
   protected JMenu createToolMenu() {
     JMenu menu = new JMenu("Tools");
     int n = toolkit.getToolCount();
@@ -103,18 +103,18 @@ public class DesingUML extends View{
     }
     return menu;
   }
-  
+
   @Override
-  protected void hideTools(){
+  protected void hideTools() {
     BorderLayout layout = (BorderLayout) this.getContentPane().getLayout();
     getContentPane().remove(layout.getLayoutComponent(BorderLayout.WEST));
     revalidate();
   }
-  
+
   @Override
-  protected void showTools(){
+  protected void showTools() {
     getContentPane().add(toolbar, BorderLayout.WEST);
     revalidate();
   }
-  
+
 }

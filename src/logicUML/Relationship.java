@@ -18,23 +18,23 @@ public class Relationship extends Component<TypeRelationship> {
     this.selected = false;
     initFigure();
   }
-  
-  private void initFigure(){
+
+  private void initFigure() {
     this.figure = new RelationshipFigure(
-            classA.getPosition().x , classA.getPosition().y +25, 
-            classB.getPosition().x , classB.getPosition().y -36);
-    this.figure.setSelected(selected) ;
+            classA.getPosition().x, classA.getPosition().y + 25,
+            classB.getPosition().x, classB.getPosition().y - 36);
+    this.figure.setSelected(selected);
     this.figure.setType(type);
   }
-  
+
   @Override
-  public void addObserver(GraphsClass observer){
+  public void addObserver(GraphsClass observer) {
     this.observer = observer;
   }
-  
+
   @Override
-  public void notifyRemove(){
-    if(type == TypeRelationship.INHERITANCE){
+  public void notifyRemove() {
+    if (type == TypeRelationship.INHERITANCE) {
       classA.setInherit(false);
     }
     observer.updateRemoveRelation(this);
@@ -47,21 +47,21 @@ public class Relationship extends Component<TypeRelationship> {
   public Class getClassB() {
     return classB;
   }
-  
-  public void updatePosition(){
+
+  public void updatePosition() {
     this.figure = new RelationshipFigure(
-            classA.getPosition().x , classA.getPosition().y, 
-            classB.getPosition().x - 40 , classB.getPosition().y - 40 );
+            classA.getPosition().x, classA.getPosition().y,
+            classB.getPosition().x - 40, classB.getPosition().y - 40);
     this.figure.setType(type);
   }
-  
+
   @Override
   public void changeType(TypeRelationship type) {
-    if(rulesOOP(classA, type, classB)){
-      if(classA.isInherit() && this.type == TypeRelationship.INHERITANCE){
+    if (rulesOOP(classA, type, classB)) {
+      if (classA.isInherit() && this.type == TypeRelationship.INHERITANCE) {
         classA.setInherit(false);
       }
-      this.type = type; 
+      this.type = type;
       this.figure.setType(type);
     }
   }
@@ -70,20 +70,20 @@ public class Relationship extends Component<TypeRelationship> {
   public TypeRelationship getType() {
     return type;
   }
-  
-  public boolean isEquals(Relationship relation){
-    return  relation.getClassA() == classA &&
-            relation.getClassB() == classB &&
-            relation.getType()   == type;
+
+  public boolean isEquals(Relationship relation) {
+    return relation.getClassA() == classA
+            && relation.getClassB() == classB
+            && relation.getType() == type;
   }
-  
-  public static Relationship makeRelationship(Class a, TypeRelationship relation, Class b){
-    if(rulesOOP(a, relation, b)){
+
+  public static Relationship makeRelationship(Class a, TypeRelationship relation, Class b) {
+    if (rulesOOP(a, relation, b)) {
       return new Relationship(a, relation, b);
     }
     return null;
   }
-  
+
   public static boolean rulesOOP(Class a, TypeRelationship relation, Class b) {
     if (a.getType() == TypeClass.INTERFACE) {
       return false;
@@ -114,6 +114,12 @@ public class Relationship extends Component<TypeRelationship> {
         return true;
       }
       if ((relation == TypeRelationship.AGGREGATION
+              || relation == TypeRelationship.COMPOSITION
+              || relation == TypeRelationship.ASSOCIATION)
+              && b.getType() == TypeClass.INTERFACE) {
+        return true;
+      }
+      if ((relation == TypeRelationship.AGGREGATION
               || relation == TypeRelationship.ASSOCIATION
               || relation == TypeRelationship.COMPOSITION
               || relation == TypeRelationship.INHERITANCE)
@@ -124,11 +130,11 @@ public class Relationship extends Component<TypeRelationship> {
     }
     return false;
   }
-  
-  public boolean intersects(Point p){
+
+  public boolean intersects(Point p) {
     return figure.intersects(p);
   }
-  
+
   @Override
   public void notifyChangeType() {
 

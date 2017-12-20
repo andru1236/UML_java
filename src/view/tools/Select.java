@@ -3,14 +3,14 @@ package view.tools;
 import java.awt.Point;
 import logicUML.Scheme;
 
-public class Select implements Tool{
+public class Select implements Tool {
 
   private String nameTool;
 
   public Select() {
     nameTool = "Select";
   }
-  
+
   @Override
   public String getName() {
     return nameTool;
@@ -30,5 +30,5 @@ public class Select implements Tool{
   public void endAction(Point p, Scheme scheme) {
 
   }
-  
+
 }

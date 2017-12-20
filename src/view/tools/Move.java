@@ -3,14 +3,14 @@ package view.tools;
 import java.awt.Point;
 import logicUML.Scheme;
 
-public class Move implements Tool{
+public class Move implements Tool {
 
   private String nameTool;
 
   public Move() {
     nameTool = "Move";
   }
-  
+
   @Override
   public String getName() {
     return nameTool;
@@ -27,7 +27,7 @@ public class Move implements Tool{
 
   @Override
   public void endAction(Point p, Scheme scheme) {
-    
+
   }
-  
+
 }

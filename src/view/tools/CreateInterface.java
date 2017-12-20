@@ -5,8 +5,8 @@ import logicUML.Scheme;
 import logicUML.Class;
 import logicUML.behavior.TypeClass;
 
-public class CreateInterface implements Tool{
-  
+public class CreateInterface implements Tool {
+
   private String nameTool;
   private String name;
   private int number;
@@ -26,8 +26,8 @@ public class CreateInterface implements Tool{
   public void startAction(Point p, Scheme scheme) {
     Class newClass = new Class(name, TypeClass.INTERFACE, p);
     scheme.addClass(newClass);
-    
-    number ++;
+
+    number++;
     name = "Interface" + number;
   }
 
@@ -38,5 +38,5 @@ public class CreateInterface implements Tool{
   @Override
   public void endAction(Point p, Scheme scheme) {
   }
-  
+
 }

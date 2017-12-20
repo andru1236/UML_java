@@ -5,18 +5,18 @@ import logicUML.Scheme;
 import logicUML.Class;
 import logicUML.behavior.TypeClass;
 
-public class CreateAbstract implements Tool{
+public class CreateAbstract implements Tool {
 
   private String nameTool;
   private String name;
   private int number;
-  
+
   public CreateAbstract() {
     nameTool = "AbstractClass";
     number = 1;
     name = "Abstract" + number;
   }
-  
+
   @Override
   public String getName() {
     return nameTool;
@@ -26,8 +26,8 @@ public class CreateAbstract implements Tool{
   public void startAction(Point p, Scheme scheme) {
     Class newClass = new Class(name, TypeClass.ABTRACT, p);
     scheme.addClass(newClass);
-    
-    number ++;
+
+    number++;
     name = "Abstract" + number;
   }
 
@@ -38,5 +38,5 @@ public class CreateAbstract implements Tool{
   @Override
   public void endAction(Point p, Scheme scheme) {
   }
-  
+
 }

@@ -1,7 +1,6 @@
 package logicUML;
 
 import java.awt.Point;
-import java.io.Serializable;
 import java.util.ArrayList;
 import logicUML.behavior.TypeClass;
 import logicUML.behavior.TypeRelationship;
@@ -24,28 +23,26 @@ public class Class extends Component<TypeClass> {
     initFigure();
   }
 
-  private void initFigure(){
+  private void initFigure() {
     this.figure = new ClassFigure(position.x - 50, position.y - 25,
             position.x + 50, position.y + 25);
-    this.figure.setSelected(selected) ;
+    this.figure.setSelected(selected);
     this.figure.setName(name);
     this.figure.setPositionName(position);
     this.figure.setType(type);
   }
-  
+
   @Override
   public void addObserver(GraphsClass observer) {
     this.observer = observer;
   }
 
   public void addRelation(Relationship relation) {
-    if(relation.getType() == TypeRelationship.INHERITANCE){
-      if(!inherit){
-        relations.add(relation);      
+    if (relation.getType() == TypeRelationship.INHERITANCE) {
+      if (!inherit) {
+        relations.add(relation);
       }
-      inherit = true;
-    }
-    else{
+    } else {
       relations.add(relation);
     }
   }
@@ -82,11 +79,11 @@ public class Class extends Component<TypeClass> {
   public Point getPosition() {
     return position;
   }
-  
+
   public boolean isInherit() {
     return inherit;
   }
- 
+
   public void setInherit(boolean inherit) {
     this.inherit = inherit;
   }
@@ -102,8 +99,8 @@ public class Class extends Component<TypeClass> {
   public void notifyRemove() {
     for (Relationship relation : relations) {
       Class classA = relation.getClassA();
-      if(classA != this){
-        observer.getNode(classA).relations.remove(relation);  
+      if (classA != this) {
+        observer.getNode(classA).relations.remove(relation);
         observer.getConexions(classA).remove(relation);
       }
     }
@@ -133,7 +130,7 @@ public class Class extends Component<TypeClass> {
 
   public String generateCode() {
     String code = "";
-    switch (type){
+    switch (type) {
       case INTERFACE:
         code = "public interface ";
         break;
@@ -144,61 +141,61 @@ public class Class extends Component<TypeClass> {
         code = "public class ";
         break;
     }
-    
+
     code += name;
-    
-    if(inherit){
+
+    if (inherit) {
       code += " extends ";
       Class classAbstract = getRelationInHeritance().getClassB();
       code += classAbstract.getName();
     }
-    
-    if(classImplements()){
+
+    if (classImplements()) {
       code += " implements ";
       ArrayList<Relationship> relationsImplements = getRelationsImplements();
-      if(relationsImplements.size() == 1){
+      if (relationsImplements.size() == 1) {
         code += relationsImplements.get(0).getClassB().getName();
-      }
-      else{
-        for(Relationship relation : relationsImplements){
-          code += relation.getClassB().getName() + ", "; 
+      } else {
+        for (Relationship relation : relationsImplements) {
+          code += relation.getClassB().getName() + ", ";
         }
-        code = code.substring(0, code.length()-2);
+        code = code.substring(0, code.length() - 2);
       }
     }
-    
+
     code += "{}";
-    
+
     return code;
   }
-  
-  private Relationship getRelationInHeritance(){
-    if(!relations.isEmpty()){
-      for(Relationship relation : relations){
-        if(relation.getType() == TypeRelationship.INHERITANCE){
+
+  private Relationship getRelationInHeritance() {
+    if (!relations.isEmpty()) {
+      for (Relationship relation : relations) {
+        if (relation.getType() == TypeRelationship.INHERITANCE) {
           return relation;
         }
       }
     }
     return null;
   }
-  
-  private ArrayList<Relationship> getRelationsImplements(){
+
+  private ArrayList<Relationship> getRelationsImplements() {
     ArrayList<Relationship> relationsImplements = new ArrayList<>();
-    if(!relations.isEmpty()){
-      for(Relationship relation : relations){
-        if(relation.getType() == TypeRelationship.IMPLEMENTS){
+    if (!relations.isEmpty()) {
+      for (Relationship relation : relations) {
+        if (relation.getType() == TypeRelationship.IMPLEMENTS) {
           relationsImplements.add(relation);
         }
       }
     }
     return relationsImplements;
   }
-  
-  private boolean classImplements(){
-    if(!relations.isEmpty()){
-      for(Relationship relation : relations){
-        if(relation.getType() == TypeRelationship.IMPLEMENTS){
+
+  private boolean classImplements() {
+    if (!relations.isEmpty()) {
+      for (Relationship relation : relations) {
+        if (relation.getType() == TypeRelationship.IMPLEMENTS
+                && relation.getClassA() == this) {
           return true;
         }
       }

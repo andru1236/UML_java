@@ -6,7 +6,7 @@ import logicUML.behavior.Selectable;
 import logicUML.behavior.Subject;
 import logicUML.geometricRepresentation.Figure;
 
-public abstract class Component<T> implements Selectable, Subject, Serializable{
+public abstract class Component<T> implements Selectable, Subject, Serializable {
 
   protected boolean selected;
   protected GraphsClass observer;
@@ -15,11 +15,10 @@ public abstract class Component<T> implements Selectable, Subject, Serializable{
 
   @Override
   public void select() {
-    if(selected){
+    if (selected) {
       selected = false;
-    }
-    else{
-      selected = true;      
+    } else {
+      selected = true;
     }
     figure.setSelected(selected);
   }
@@ -28,8 +27,8 @@ public abstract class Component<T> implements Selectable, Subject, Serializable{
   public boolean isSelected() {
     return selected;
   }
-  
-  public void draw(Graphics g){
+
+  public void draw(Graphics g) {
     figure.draw(g);
   }
 
