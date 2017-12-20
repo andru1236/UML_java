@@ -1,14 +1,20 @@
 
 package logicUML.geometricRepresentation;
 
+import java.awt.Graphics;
 import java.awt.Point;
 
-public abstract class Figure {
+public abstract class Figure<T> implements Editable<T>{
 
   protected int x1;
   protected int y1;
   protected int x2;
   protected int y2;
+  
+  protected String name;
+  protected boolean selected;
+  protected Point positionName;
+  protected T type;
   
   public Figure(int x1, int y1, int x2, int y2){
     this.x1 = x1;
@@ -31,8 +37,32 @@ public abstract class Figure {
     y2 = y2 + p.y;
   }
   
+  @Override
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  @Override
+  public void setPositionName(Point p) {
+    this.positionName = p;
+  }
+  
+  @Override
+  public void setSelected(boolean selected) {
+    this.selected = selected;
+  }
+  
+  @Override
+  public void setType(T type) {
+   this.type = type;
+  }
+  
   public abstract boolean intersects(Point p);
   
   public abstract Figure clonFigure();
+  
+  public abstract void draw(Graphics g);
+
+  
   
 }

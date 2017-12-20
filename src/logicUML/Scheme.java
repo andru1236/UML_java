@@ -1,5 +1,6 @@
 package logicUML;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import logicUML.behavior.TypeClass;
@@ -34,6 +35,7 @@ public class Scheme {
   public void select(Point p){
     Component componentSelect = graph.select(p);
     if(componentSelect != null){
+      undoList.add(graph.clonGraph());
       if(componentSelect.isSelected()){
         listSelected.remove(componentSelect);
       } else{
@@ -150,6 +152,14 @@ public class Scheme {
   
   public Component getComponent(Point p){
     return graph.select(p);
+  }
+  
+  public void draw(Graphics g){
+    graph.draw(g);
+  }
+  
+  public void show(){
+    graph.show();
   }
   
 }

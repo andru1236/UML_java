@@ -45,6 +45,9 @@ public class Relationship extends Component<TypeRelationship> {
   @Override
   public void changeType(TypeRelationship type) {
     if(rulesOOP(classA, type, classB)){
+      if(classA.isInherit() && this.type == TypeRelationship.INHERITANCE){
+        classA.setInherit(false);
+      }
       this.type = type;      
     }
   }

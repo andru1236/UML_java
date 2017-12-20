@@ -345,4 +345,204 @@ public class SchemeTest {
     assertEquals(expectedResult, scheme.getListSelected().isEmpty());
   }
   
+  @Test
+  public void changeTwoClassesTypeWithRelationSelected(){
+    initScheme();
+    
+    boolean expectedResult = false;
+    assertEquals(expectedResult, scheme.existRelations());
+
+    expectedResult = true;
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.CONCRETE_CLASS, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    TypeRelationship typeRelation = TypeRelationship.INHERITANCE;
+    Point pointRelation = new Point(50, 60);
+    scheme.addRelation(typeRelation);
+    
+    TypeClass expectednewType = TypeClass.ABTRACT;
+    
+    scheme.select(pointClassB);
+    scheme.select(pointClassA);
+    scheme.select(pointRelation);    
+    
+    scheme.changeClass(expectednewType);
+
+    scheme.select(pointRelation);
+    
+    assertEquals(expectednewType, classA.getType());
+    assertEquals(expectednewType, classB.getType());
+    assertEquals(typeRelation, scheme.getListSelected().get(0).getType());    
+  }
+  
+  @Test
+  public void changeRelationWithTwoClassesSelectedTest(){
+    initScheme();
+    
+    boolean expectedResult = false;
+    assertEquals(expectedResult, scheme.existRelations());
+
+    expectedResult = true;
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.CONCRETE_CLASS, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    TypeRelationship typeRelation = TypeRelationship.INHERITANCE;
+    Point pointRelation = new Point(50, 60);
+    scheme.addRelation(typeRelation);
+    
+    TypeRelationship expectedNewType = TypeRelationship.COMPOSITION;
+    TypeClass expecteClassType = TypeClass.CONCRETE_CLASS;
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    scheme.select(pointRelation);    
+    
+    scheme.changeRelation(expectedNewType);
+    
+    scheme.select(pointRelation);
+    
+    assertEquals(expecteClassType, classA.getType());
+    assertEquals(expecteClassType, classB.getType());
+    assertEquals(expectedNewType, scheme.getListSelected().get(0).getType());
+  }
+  
+  @Test
+  public void imposibleRelationInterfaceWithConcreteClassCompositionTest(){
+    initScheme();
+
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.INTERFACE, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+    
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    boolean existRelations = false;
+    scheme.addRelation(TypeRelationship.COMPOSITION);
+    Point pointRelation = new Point(50, 60);
+    
+    scheme.select(pointRelation);
+    assertEquals(existRelations, scheme.existRelations());
+    
+  }
+  
+  @Test
+  public void imposibleRelationInterfaceWithConcreteClassInheritanceTest(){
+    initScheme();
+
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.INTERFACE, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+    
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    boolean existRelations = false;
+    scheme.addRelation(TypeRelationship.INHERITANCE);
+    Point pointRelation = new Point(50, 60);
+    
+    scheme.select(pointRelation);
+    assertEquals(existRelations, scheme.existRelations());
+  }
+  
+  @Test
+  public void imposibleRelationInterfaceWithConcreteClassImpementsTest(){
+    initScheme();
+
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.INTERFACE, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+    
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    boolean existRelations = false;
+    scheme.addRelation(TypeRelationship.IMPLEMENTS);
+    Point pointRelation = new Point(50, 60);
+    
+    scheme.select(pointRelation);
+    assertEquals(existRelations, scheme.existRelations());
+  }
+  
+  @Test
+  public void imposibleRelationConcreteWithConcreteClassImpementsTest(){
+    initScheme();
+
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.CONCRETE_CLASS, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.CONCRETE_CLASS, pointClassB);
+    
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    boolean existRelations = false;
+    scheme.addRelation(TypeRelationship.IMPLEMENTS);
+    Point pointRelation = new Point(50, 60);
+    
+    scheme.select(pointRelation);
+    assertEquals(existRelations, scheme.existRelations());
+  }
+  
+  @Test
+  public void imposibleRelationAbstractWithAbsctractClassImpementsTest(){
+    initScheme();
+
+    Point pointClassA = new Point(50, 25);
+    Point pointClassB = new Point(50, 100);
+
+    Class classA = new Class("ClassA", TypeClass.ABTRACT, pointClassA);
+    Class classB = new Class("ClassB", TypeClass.ABTRACT, pointClassB);
+    
+    scheme.addClass(classA);
+    scheme.addClass(classB);
+    
+    scheme.select(pointClassA);
+    scheme.select(pointClassB);
+    
+    boolean existRelations = false;
+    scheme.addRelation(TypeRelationship.IMPLEMENTS);
+    Point pointRelation = new Point(50, 60);
+    
+    scheme.select(pointRelation);
+    assertEquals(existRelations, scheme.existRelations());
+  }
+  
 }

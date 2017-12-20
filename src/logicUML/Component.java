@@ -1,5 +1,6 @@
 package logicUML;
 
+import java.awt.Graphics;
 import logicUML.behavior.Selectable;
 import logicUML.behavior.Subject;
 import logicUML.geometricRepresentation.Figure;
@@ -19,11 +20,16 @@ public abstract class Component<T> implements Selectable, Subject {
     else{
       selected = true;      
     }
+    figure.setSelected(selected);
   }
 
   @Override
   public boolean isSelected() {
     return selected;
+  }
+  
+  public void draw(Graphics g){
+    figure.draw(g);
   }
 
   public abstract void changeType(T type);

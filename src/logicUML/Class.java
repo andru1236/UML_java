@@ -20,10 +20,17 @@ public class Class extends Component<TypeClass> {
     this.selected = false;
     this.inherit = false;
     this.relations = new ArrayList<>();
-    this.figure = new ClassFigure(position.x - 50, position.y - 25,
-            position.x + 50, position.y + 25);
+    initFigure();
   }
 
+  private void initFigure(){
+    this.figure = new ClassFigure(position.x - 50, position.y - 25,
+            position.x + 50, position.y + 25);
+    this.figure.setSelected(selected) ;
+    this.figure.setName(name);
+    this.figure.setPositionName(position);
+  }
+  
   @Override
   public void addObserver(GraphsClass observer) {
     this.observer = observer;
@@ -43,15 +50,18 @@ public class Class extends Component<TypeClass> {
 
   public void changeName(String newName) {
     this.name = newName;
+    this.figure.setName(name);
   }
 
   public void changePosition(Point newPosition) {
     this.position = newPosition;
+    this.figure.setPositionName(position);
   }
 
   @Override
   public void changeType(TypeClass type) {
     this.type = type;
+    this.figure.setType(this.type);
     notifyChangeType();
   }
 
@@ -108,6 +118,7 @@ public class Class extends Component<TypeClass> {
     Point positionClon = new Point(position.x, position.y);
     Class clon = new Class(name, type, positionClon);
     clon.selected = selected;
+    clon.figure = figure.clonFigure();
     return clon;
   }
 

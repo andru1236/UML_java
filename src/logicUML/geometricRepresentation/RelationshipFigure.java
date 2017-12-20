@@ -1,8 +1,10 @@
 package logicUML.geometricRepresentation;
 
+import java.awt.Graphics;
 import java.awt.Point;
+import logicUML.behavior.TypeRelationship;
 
-public class RelationshipFigure extends Figure{
+public class RelationshipFigure extends Figure<TypeRelationship>{
 
   private final double EPS = 0.01;
 
@@ -29,6 +31,11 @@ public class RelationshipFigure extends Figure{
   public Figure clonFigure() {
     RelationshipFigure clon = new RelationshipFigure(x1, y1, x2, y2);
     return (Figure) clon;
+  }
+
+  @Override
+  public void draw(Graphics g) {
+     
   }
   
 }

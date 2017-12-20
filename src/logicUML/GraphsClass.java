@@ -1,5 +1,6 @@
 package logicUML;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -216,6 +217,14 @@ public class GraphsClass {
   
   public int getNumberNodes(){
     return graph.size();
+  }
+  
+  public void draw(Graphics g) {
+    if (!graph.isEmpty()) {
+      for (Class c : graph.keySet()) {
+        c.draw(g);
+      }
+    }
   }
 
 }
